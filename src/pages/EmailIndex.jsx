@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react"
-import { Outlet } from "react-router"
+import { Outlet, useSearchParams, useParams } from 'react-router-dom'
+
 
 import { EmailList } from '../cmps/EmailList'
-import { SideNav } from '../cmps/SideNav'
+import { EmailSidebar } from '../cmps/EmailSidebar'
+import { EmailCompose } from '../cmps/EmailCompose'
 
 import { emailService } from "../services/email.service"
 
 export function EmailIndex() {
   const [emails, setEmails] = useState(null)
+	const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
     loadEmails()
-  }, [emails])
+  }, [])
 
   async function loadEmails() {
     try {
@@ -24,7 +27,8 @@ export function EmailIndex() {
 
   async function onRemoveEmail(emailId) {
     try {
-      emailService.remove(emailId)
+      await emailService.remove(emailId)
+			setEmails(prevEmails => prevEmails.filter(email => email.id !== emailId))
     } catch (err) {
       console.log('Had issues removing email', err)
     }
@@ -34,19 +38,24 @@ export function EmailIndex() {
     try {
       const email = await emailService.getById(emailId)
       email[key] = !email[key]
-      emailService.save(email)
+      const updatedEmail = emailService.save(email)
+      setEmails(prevEmails => prevEmails.map(email => email.id === updatedEmail.id ? updatedEmail : email))
     } catch (err) {
       console.log('Had issues updating email', err)
     }
   }
 
+	const isComposeOpen = !!searchParams.get('compose')
+
   return (
-    emails && (
-      <section className="email-index">
-        {/* <Outlet /> */}
-        <SideNav />
-        <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail}/>
-      </section>
-    )
+    <section className="email-index">
+      {emails && 
+        <>
+          <EmailSidebar />
+          <EmailList emails={emails} onRemoveEmail={onRemoveEmail} onUpdateEmail={onUpdateEmail}/>
+        </>
+      }
+      {isComposeOpen && (<EmailCompose />)}
+    </section>
   )
 }

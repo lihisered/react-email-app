@@ -1,0 +1,14 @@
+.email-compose {
+	width: 600px;
+    height: 600px; // TEMP
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	bottom: 0px;
+	right: 100px;
+	z-index: 100;
+	box-shadow: $email-box-shadow;
+    background-color: $clr1;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
