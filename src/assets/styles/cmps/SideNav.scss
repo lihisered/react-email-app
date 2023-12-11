@@ -1,0 +1,33 @@
+.side-nav {
+    width: 250px;
+    padding-right: 8px;
+    padding-top: 8px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+  
+    a {
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      height: 32px;
+      padding: 0 12px 0 16px;
+      border-radius: 16px;
+      // border-top-right-radius: 16px;
+      // border-bottom-right-radius: 16px;
+      display: flex;
+      align-items: center;
+      color: #38393D;
+      font-size: 0.875rem;
+      cursor: pointer;
+    
+      &:not(.selected):hover {
+        background-color: #EAEBEF; 
+      }
+    }
+
+    .selected {
+      background-color: #D3E3FD;
+      color: #001d35;
+      font-weight: bold;
+    }
+  }

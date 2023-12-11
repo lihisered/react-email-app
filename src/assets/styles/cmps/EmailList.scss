@@ -1,0 +1,12 @@
+.email-list {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 16px;
+  // flex-wrap: wrap;
+}
+
+.email-list {
+  list-style: none;
+  padding: 0;
+}
